@@ -3,7 +3,8 @@
 A WXT, React, and TypeScript starter for serious browser extension products.
 
 It includes a popup, a thin options page, a background service worker, a content
-script, typed messaging, typed storage, scoped logging, Vitest, and Biome.
+script, typed messaging, typed storage, scoped logging, GitHub Actions, Vitest,
+and Biome.
 
 ## Project Shape
 
@@ -54,6 +55,16 @@ pnpm zip
 ```
 
 Use `pnpm dev:firefox`, `pnpm build:firefox`, or `pnpm zip:firefox` when targeting Firefox.
+
+## CI/CD
+
+GitHub Actions runs `pnpm compile`, `pnpm test`, `pnpm check`, and `pnpm build`
+on pushes to `main` and pull requests.
+
+Pushing a tag like `v1.0.0` builds Chrome and Firefox zip packages and creates a
+draft GitHub release. The workflow intentionally does not publish to Chrome Web
+Store or Firefox Add-ons automatically; submit the generated packages manually
+unless the product has a reviewed release process and store credentials in place.
 
 ## Before Shipping
 
