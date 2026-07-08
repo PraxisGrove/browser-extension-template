@@ -3,7 +3,7 @@
 A WXT, React, and TypeScript starter for serious browser extension products.
 
 It includes a popup, a thin options page, a background service worker, a content
-script, typed messaging, typed storage, Vitest, and Biome.
+script, typed messaging, typed storage, scoped logging, Vitest, and Biome.
 
 ## Project Shape
 
@@ -14,9 +14,20 @@ entrypoints/
   options/               # Thin settings page
   popup/                 # Popup UI
 lib/
+  logger/                # Scoped local logging
   messaging/             # Typed runtime messages
   storage/               # Typed settings storage
 ```
+
+## Logging
+
+Use `createLogger('scope')` from `lib/logger/logger.ts` instead of direct
+`console.*` calls. Logs are scoped, accept typed context objects, default to
+`debug` in development, and default to `warn` in production builds.
+
+This template intentionally does not ship remote log collection. Add a telemetry
+or error-reporting provider only after the product has a clear privacy policy,
+consent model, and data-retention plan.
 
 ## Permissions
 

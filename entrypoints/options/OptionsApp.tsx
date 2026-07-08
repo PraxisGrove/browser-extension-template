@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { createLogger } from '@/lib/logger/logger';
 import {
   DEFAULT_SETTINGS,
   type ExtensionSettings,
@@ -8,6 +9,8 @@ import {
   watchSettings,
 } from '@/lib/storage/settings';
 import './OptionsApp.css';
+
+const logger = createLogger('options');
 
 function OptionsApp() {
   const [settingsState, setSettingsState] =
@@ -19,7 +22,9 @@ function OptionsApp() {
   }, []);
 
   async function updateSettings(patch: Partial<ExtensionSettings>) {
-    setSettingsState(await setSettings(patch));
+    const nextSettings = await setSettings(patch);
+    setSettingsState(nextSettings);
+    logger.debug('Settings updated.', { patch });
   }
 
   return (

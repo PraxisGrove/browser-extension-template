@@ -1,6 +1,8 @@
+import { createLogger } from '@/lib/logger/logger';
+
 export default defineContentScript({
   matches: ['https://example.com/*'],
   main() {
-    console.log('Content script loaded.');
+    createLogger('content').info('Content script loaded.');
   },
 });

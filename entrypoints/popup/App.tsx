@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { createLogger } from '@/lib/logger/logger';
 import { sendMessage } from '@/lib/messaging/send-message';
 import {
   DEFAULT_SETTINGS,
@@ -7,6 +8,8 @@ import {
   watchSettings,
 } from '@/lib/storage/settings';
 import './App.css';
+
+const logger = createLogger('popup');
 
 function App() {
   const [settings, setSettings] = useState<ExtensionSettings>(DEFAULT_SETTINGS);
@@ -18,8 +21,16 @@ function App() {
   }, []);
 
   async function pingBackground() {
-    const response = await sendMessage('ping', { source: 'popup' });
-    setLastPing(new Date(response.timestamp).toLocaleTimeString());
+    try {
+      const response = await sendMessage('ping', { source: 'popup' });
+      setLastPing(new Date(response.timestamp).toLocaleTimeString());
+      logger.debug('Background ping succeeded.', {
+        extensionId: response.extensionId,
+      });
+    } catch (error) {
+      logger.error('Background ping failed.', { error });
+      setLastPing('Failed');
+    }
   }
 
   return (
